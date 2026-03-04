@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "New Input Systeam",
+    "maps": [
+        {
+            "name": "Main",
+            "id": "dd053a5c-04d5-4299-85ab-bba44a9e1047",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "fd735690-aa7f-4431-923a-10d5b053f2b9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "21004ae0-d9fd-4076-9242-d5fbbd6e52a8",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
