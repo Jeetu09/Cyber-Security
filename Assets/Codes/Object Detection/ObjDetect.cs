@@ -28,7 +28,6 @@ public class ObjDetect : MonoBehaviour
 
     [Header("Phone UI")]
     public Image MobileUI;
-    public Image SmartPhoneEnable;
 
     public bool[] uiOpen;
     private bool isPaused = false;
@@ -50,7 +49,7 @@ public class ObjDetect : MonoBehaviour
         if (MobileUI != null) MobileUI.gameObject.SetActive(false);
         if (MainMenue != null) MainMenue.gameObject.SetActive(false);
 
-        SmartPhoneEnable.gameObject.SetActive(true);
+
     }
 
     private void Update()
@@ -66,10 +65,6 @@ public class ObjDetect : MonoBehaviour
         if (isPaused) return;
 
         // Q → Mobile UI
-        if (!mobileLocked && Input.GetKeyDown(KeyCode.Q) && !IsAnyUIOpen())
-        {
-            OpenMobileUI();
-        }
 
         // Interactable detection
         for (int i = 0; i < Entries.Length; i++)
@@ -108,7 +103,6 @@ public class ObjDetect : MonoBehaviour
         CloseAllUI();
         MainMenue.gameObject.SetActive(true);
         EscUI.gameObject.SetActive(false);
-        SmartPhoneEnable.gameObject.SetActive(false);
         DisablePlayer();
     }
 
@@ -116,7 +110,6 @@ public class ObjDetect : MonoBehaviour
     {
         isPaused = false;
         MainMenue.gameObject.SetActive(false);
-        SmartPhoneEnable.gameObject.SetActive(true);
         EscUI.gameObject.SetActive(true);
         EnablePlayer();
     }
@@ -130,7 +123,6 @@ public class ObjDetect : MonoBehaviour
     private void OpenMobileUI()
     {
         MobileUI.gameObject.SetActive(true);
-        SmartPhoneEnable.gameObject.SetActive(false);
         DisablePlayer();
     }
 
@@ -155,7 +147,6 @@ public class ObjDetect : MonoBehaviour
     {
         EnablePlayer();
         if (MobileUI != null) MobileUI.gameObject.SetActive(false);
-        SmartPhoneEnable.gameObject.SetActive(true);
 
         for (int i = 0; i < uiOpen.Length; i++)
         {
