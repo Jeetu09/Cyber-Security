@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
@@ -15,8 +16,12 @@ public class RandomOtp : MonoBehaviour
     public Image ScreenUI;
 
     public ObjDetect objDetect;
+    public GameObject  FatherScolding;
 
-
+    [SerializeField]
+    private SceneMan sceneMan;
+    [SerializeField]
+    private ObjDetect objdetect;
     private void GenerateOTP()
     {
         int otp = Random.Range(1000, 9999);
@@ -32,19 +37,15 @@ public class RandomOtp : MonoBehaviour
             {
                 Debug.Log("OTP Matched Successfully!");
                 CoorectUI.SetActive(true);
-                WrongUI.SetActive(false);
                 otpInput.text = "";
-
                 GenerateOTP(); // Make new OTP
-
                 Invoke(nameof(WarningAnimationClass), 4f);
                 ScreenUI.gameObject.SetActive(false);
                 objDetect.DisablePlayer();
                 objDetect.mobileLocked = true;
                 objDetect.CloseAllUI();
-
-
-
+                FatherScolding.SetActive(true);
+                sceneMan.SceneCounterIncrease();
             }
             else
             {
@@ -57,23 +58,19 @@ public class RandomOtp : MonoBehaviour
 
     public void WarningAnimationClass()
     {
-        //warninganim.SetTrigger("Warning");
-        warning.gameObject.SetActive(true);
-
+        objdetect.CloseAllUI();
+        SceneManager.LoadScene("Gaming");
     }
 
     IEnumerator EnableDisable()
     {
-        WrongUI.SetActive(true);
         yield return new WaitForSeconds(2f);
-        WrongUI.SetActive(false);
     }
 
     void Start()
     {
         GenerateOTP();
-        CoorectUI.SetActive(false);
-        WrongUI.SetActive(false);
         warning.gameObject.SetActive(false);
+        FatherScolding.SetActive(false);
     }
 }
