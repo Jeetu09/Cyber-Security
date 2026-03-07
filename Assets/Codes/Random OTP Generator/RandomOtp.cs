@@ -12,16 +12,22 @@ public class RandomOtp : MonoBehaviour
     public GameObject CoorectUI, WrongUI;
 
     [Header("Animation")]
-    public Image warning;
     public Image ScreenUI;
 
     public ObjDetect objDetect;
-    public GameObject  FatherScolding;
 
     [SerializeField]
     private SceneMan sceneMan;
     [SerializeField]
     private ObjDetect objdetect;
+
+    [SerializeField]
+    private HealthSystem healthsystem;
+
+    public GameObject SkinWin;
+    public Button myButton;
+    public GameObject DummyBtn;
+    public GameObject DummyOrgBtn;
     private void GenerateOTP()
     {
         int otp = Random.Range(1000, 9999);
@@ -35,6 +41,7 @@ public class RandomOtp : MonoBehaviour
         {
             if (otpInput.text == otpText.text)
             {
+                healthsystem.DecreaseHealth(20);
                 Debug.Log("OTP Matched Successfully!");
                 CoorectUI.SetActive(true);
                 otpInput.text = "";
@@ -44,8 +51,10 @@ public class RandomOtp : MonoBehaviour
                 objDetect.DisablePlayer();
                 objDetect.mobileLocked = true;
                 objDetect.CloseAllUI();
-                FatherScolding.SetActive(true);
                 sceneMan.SceneCounterIncrease();
+                SkinWin.SetActive(true);
+                DummyBtn.SetActive(true);
+                DummyOrgBtn.SetActive(false);
             }
             else
             {
@@ -59,7 +68,6 @@ public class RandomOtp : MonoBehaviour
     public void WarningAnimationClass()
     {
         objdetect.CloseAllUI();
-        SceneManager.LoadScene("Gaming");
     }
 
     IEnumerator EnableDisable()
@@ -70,7 +78,7 @@ public class RandomOtp : MonoBehaviour
     void Start()
     {
         GenerateOTP();
-        warning.gameObject.SetActive(false);
-        FatherScolding.SetActive(false);
+        SkinWin.SetActive(false);
+        DummyBtn.SetActive(false);
     }
 }
