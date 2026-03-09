@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -15,10 +16,15 @@ public class HealthSystem : MonoBehaviour
     [Header("Gain and Loss Warning")]
     public Animator GainUIAnim;
     public Animator LossUIAnim;
+    public Animator FinalGoodEnding;
+    public Animator FinalBadEnding;
+    [SerializeField]
+    private ObjDetect objDetect;
 
     void Start()
     {
         UpdateHealthUI();
+        FinalGoodEnding.gameObject.SetActive(false);
     }
 
     // Increase Health
@@ -52,5 +58,29 @@ public class HealthSystem : MonoBehaviour
     {
         healthFill.fillAmount = (float)currentHealth / maxHealth;
         healthText.text = currentHealth + "/" + maxHealth;
+    }
+
+    public void DeleteBtn()
+    {
+        objDetect.DisablePlayer();
+        if (currentHealth == 100)
+        {
+            Debug.Log("Good Job");
+            FinalGoodEnding.gameObject.SetActive(true);
+            FinalGoodEnding.Play("Win WIn", 0, 0f);
+        }
+        else
+        {
+             Debug.Log("Try Again");
+            FinalBadEnding.gameObject.SetActive(true);
+            FinalBadEnding.Play("Loss Loss", 0, 0f);
+            
+        }
+    }
+
+    public void RestartGame()
+    {
+        objDetect.DisablePlayer();
+        SceneManager.LoadScene("Gaming");
     }
 }

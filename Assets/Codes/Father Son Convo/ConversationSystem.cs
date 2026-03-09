@@ -12,6 +12,8 @@ public class ConversationSystem : MonoBehaviour
         [TextArea] public string sentence;
     }
 
+    
+
     public Dialogue[] dialogues;
     public float typingSpeed = 0.05f;
     public float nextDelay = 1f;
