@@ -24,6 +24,8 @@ public class HealthSystem : MonoBehaviour
     // Increase Health
     public void IncreaseHealth(int amount)
     {
+        GainUIAnim.gameObject.SetActive(true);
+        GainUIAnim.Play("Green Frame Animation", 0, 0f);
         currentHealth += amount;
 
         if (currentHealth > maxHealth)

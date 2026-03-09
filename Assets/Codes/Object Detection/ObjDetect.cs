@@ -8,6 +8,7 @@ public class InteractableUIEntry
 {
     public Transform Interactable;
     public Image[] InteractableUI;
+    public GameObject Epopup;   // Individual popup for each interactable
 }
 
 public class ObjDetect : MonoBehaviour
@@ -18,9 +19,6 @@ public class ObjDetect : MonoBehaviour
     public Image MainMenue;
     public Image EscUI;
 
-    [Header("Player & Camera")]
-    public GameObject Epopup;
-    public GameObject MainCamera;
 
     [Header("Interactables")]
     public InteractableUIEntry[] Entries;
@@ -44,12 +42,15 @@ public class ObjDetect : MonoBehaviour
         uiOpen = new bool[Entries.Length];
 
         for (int i = 0; i < Entries.Length; i++)
+        {
             HideEntryUI(i);
+
+            if (Entries[i].Epopup != null)
+                Entries[i].Epopup.SetActive(false);
+        }
 
         if (MobileUI != null) MobileUI.gameObject.SetActive(false);
         if (MainMenue != null) MainMenue.gameObject.SetActive(false);
-
-
     }
 
     private void Update()
@@ -61,10 +62,8 @@ public class ObjDetect : MonoBehaviour
             return;
         }
 
-        // Block everything if paused
+        // Stop everything if paused
         if (isPaused) return;
-
-        // Q → Mobile UI
 
         // Interactable detection
         for (int i = 0; i < Entries.Length; i++)
@@ -76,9 +75,10 @@ public class ObjDetect : MonoBehaviour
 
             if (distance <= DetectionRange)
             {
-                Epopup.SetActive(true);
-                Epopup.transform.LookAt(MainCamera.transform);
-                Epopup.transform.Rotate(0, 180, 0);
+                if (entry.Epopup != null)
+                {
+                    entry.Epopup.SetActive(true);
+                }
 
                 if (Input.GetKeyDown(KeyCode.E) && !uiOpen[i])
                 {
@@ -91,7 +91,8 @@ public class ObjDetect : MonoBehaviour
                 if (uiOpen[i])
                     SetEntryUIActive(i, false);
 
-                Epopup.SetActive(false);
+                if (entry.Epopup != null)
+                    entry.Epopup.SetActive(false);
             }
         }
     }
@@ -119,17 +120,22 @@ public class ObjDetect : MonoBehaviour
         SceneManager.LoadScene("Home Page Scene");
     }
 
-    // ---------- UI ----------
+    // ---------- MOBILE UI ----------
     private void OpenMobileUI()
     {
-        MobileUI.gameObject.SetActive(true);
-        DisablePlayer();
+        if (MobileUI != null)
+        {
+            MobileUI.gameObject.SetActive(true);
+            DisablePlayer();
+        }
     }
 
+    // ---------- ENTRY UI ----------
     private void SetEntryUIActive(int index, bool active)
     {
         foreach (var img in Entries[index].InteractableUI)
-            if (img != null) img.gameObject.SetActive(active);
+            if (img != null)
+                img.gameObject.SetActive(active);
 
         uiOpen[index] = active;
 
@@ -140,13 +146,16 @@ public class ObjDetect : MonoBehaviour
     private void HideEntryUI(int index)
     {
         foreach (var img in Entries[index].InteractableUI)
-            if (img != null) img.gameObject.SetActive(false);
+            if (img != null)
+                img.gameObject.SetActive(false);
     }
 
     public void CloseAllUI()
     {
         EnablePlayer();
-        if (MobileUI != null) MobileUI.gameObject.SetActive(false);
+
+        if (MobileUI != null)
+            MobileUI.gameObject.SetActive(false);
 
         for (int i = 0; i < uiOpen.Length; i++)
         {
