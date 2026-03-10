@@ -46,11 +46,11 @@ public class RandomOtp : MonoBehaviour
                 CoorectUI.SetActive(true);
                 otpInput.text = "";
                 GenerateOTP(); // Make new OTP
-                Invoke(nameof(WarningAnimationClass), 4f);
+                //Invoke(nameof(WarningAnimationClass), 4f);
                 ScreenUI.gameObject.SetActive(false);
                 objDetect.DisablePlayer();
                 objDetect.mobileLocked = true;
-                objDetect.CloseAllUI();
+                //objDetect.CloseAllUI();
                 sceneMan.SceneCounterIncrease();
                 SkinWin.SetActive(true);
                 DummyBtn.SetActive(true);
