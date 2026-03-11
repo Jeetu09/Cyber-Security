@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class HealthSystem : MonoBehaviour
     [SerializeField]
     private ObjDetect objDetect;
 
+    [Header("Loss and grow Animation")]
+    public Animator lossAnim;
+    
+    public Animator GainAnim;
+
     void Start()
     {
         UpdateHealthUI();
@@ -31,6 +37,8 @@ public class HealthSystem : MonoBehaviour
     public void IncreaseHealth(int amount)
     {
         GainUIAnim.gameObject.SetActive(true);
+        
+        GainAnim.Play("Gain point animation", 0, 0f);
         GainUIAnim.Play("Green Frame Animation", 0, 0f);
         currentHealth += amount;
 
@@ -45,6 +53,8 @@ public class HealthSystem : MonoBehaviour
     {
         LossUIAnim.gameObject.SetActive(true);
         LossUIAnim.Play("Red Frame Animation", 0, 0f);
+        lossAnim.Play("Loss point animation", 0, 0f);
+
         currentHealth -= amount;
 
         if (currentHealth < 0)
